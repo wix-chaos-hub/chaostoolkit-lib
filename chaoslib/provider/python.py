@@ -1,3 +1,4 @@
+from distutils.log import error
 import importlib
 import inspect
 import sys
@@ -88,10 +89,11 @@ def validate_python_activity(activity: Activity):  # noqa: C901
 
     try:
         mod = importlib.import_module(mod_name)
-    except ImportError:
+    except ImportError as e:
         raise InvalidActivity(
             "could not find Python module '{mod}' "
-            "in activity '{name}'".format(mod=mod_name, name=activity_name)
+            "in activity '{name}'"
+            "\nthe error is:\n{error}".format(mod=mod_name, name=activity_name, error=e)
         )
 
     found_func = False

@@ -93,7 +93,8 @@ def validate_python_activity(activity: Activity):  # noqa: C901
         raise InvalidActivity(
             "could not find Python module '{mod}' "
             "in activity '{name}'"
-            "\nthe error is:\n{error}".format(mod=mod_name, name=activity_name, error=e)
+            "\nerror traceback:\n{error}".format(
+                mod=mod_name, name=activity_name, error=e)
         )
 
     found_func = False

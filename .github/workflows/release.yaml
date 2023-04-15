@@ -70,4 +70,3 @@ jobs:
       uses: actions/upload-artifact@v2-preview
       with:
         name: chaostoolkit-packages
-        path: dist/chaostoolkit-lib-*

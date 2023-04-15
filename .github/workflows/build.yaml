@@ -21,7 +21,6 @@ jobs:
       - name: Build the choastoolkit-lib package
         run : |
           make build
-
   lint:
     runs-on: ubuntu-20.04
     steps:
@@ -36,7 +35,6 @@ jobs:
       - name: Lint chaoslib
         run: |
           make lint
-
   test:
     runs-on: ubuntu-20.04
     strategy:

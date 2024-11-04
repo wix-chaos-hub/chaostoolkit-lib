@@ -35,45 +35,57 @@ def ensure_activity_is_valid(activity: Activity):  # noqa: C901
 
     In all failing cases, raises :exc:`InvalidActivity`.
     """
+    logger.info("ensuring activity is valid 1")
     if not activity:
         raise InvalidActivity("empty activity is no activity")
 
+    logger.info("ensuring activity is valid 2")
     # when the activity is just a ref, there is little to validate
     ref = activity.get("ref")
+    logger.info("ensuring activity is valid 3")
     if ref is not None:
         if not isinstance(ref, str) or ref == "":
             raise InvalidActivity("reference to activity must be non-empty strings")
         return
 
+    logger.info("ensuring activity is valid 4")
     activity_type = activity.get("type")
     if not activity_type:
         raise InvalidActivity("an activity must have a type")
 
+    logger.info("ensuring activity is valid 5")
     if activity_type not in ("probe", "action"):
         raise InvalidActivity(f"'{activity_type}' is not a supported activity type")
 
+    logger.info("ensuring activity is valid 6")
     if not activity.get("name"):
         raise InvalidActivity("an activity must have a name")
 
+    logger.info("ensuring activity is valid 7")
     provider = activity.get("provider")
     if not provider:
         raise InvalidActivity("an activity requires a provider")
 
+    logger.info("ensuring activity is valid 8")
     provider_type = provider.get("type")
     if not provider_type:
         raise InvalidActivity("a provider must have a type")
 
+    logger.info("ensuring activity is valid 9")
     if provider_type not in ("python", "process", "http"):
         raise InvalidActivity(f"unknown provider type '{provider_type}'")
 
+    logger.info("ensuring activity is valid 10")
     if not activity.get("name"):
         raise InvalidActivity("activity must have a name (cannot be empty)")
 
+    logger.info("ensuring activity is valid 11")
     timeout = activity.get("timeout")
     if timeout is not None:
         if not isinstance(timeout, numbers.Number):
             raise InvalidActivity("activity timeout must be a number")
 
+    logger.info("ensuring activity is valid 12")
     pauses = activity.get("pauses")
     if pauses is not None:
         before = pauses.get("before")
@@ -83,16 +95,19 @@ def ensure_activity_is_valid(activity: Activity):  # noqa: C901
         if after is not None and not isinstance(after, numbers.Number):
             raise InvalidActivity("activity after pause must be a number")
 
+    logger.info("ensuring activity is valid 13")
     if "background" in activity:
         if not isinstance(activity["background"], bool):
             raise InvalidActivity("activity background must be a boolean")
 
+    logger.info("ensuring activity is valid 14")
     if provider_type == "python":
         validate_python_activity(activity)
     elif provider_type == "process":
         validate_process_activity(activity)
     elif provider_type == "http":
         validate_http_activity(activity)
+    logger.info("ensuring activity is valid 15")
 
 
 def run_activities(

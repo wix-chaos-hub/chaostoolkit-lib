@@ -76,18 +76,24 @@ def validate_python_activity(activity: Activity):  # noqa: C901
 
     This should be considered as a private function.
     """
+    logger.info("validate_python_activity 1")
     activity_name = activity["name"]
     provider = activity["provider"]
     mod_name = provider.get("module")
+    logger.info("validate_python_activity 2")
     if not mod_name:
         raise InvalidActivity("a Python activity must have a module path")
 
+    logger.info("validate_python_activity 3")
     func = provider.get("func")
     if not func:
         raise InvalidActivity("a Python activity must have a function name")
+    logger.info("validate_python_activity 4")
 
     try:
+        logger.info("validate_python_activity 5")
         mod = importlib.import_module(mod_name)
+        logger.info("validate_python_activity 6")
     except ImportError as err:
         raise InvalidActivity(
             "could not find Python module '{mod}'"
@@ -97,11 +103,14 @@ def validate_python_activity(activity: Activity):  # noqa: C901
             )
         )
 
+    logger.info("validate_python_activity 7")
     found_func = False
     arguments = provider.get("arguments", {})
+    logger.info("validate_python_activity 7")
     candidates = set(inspect.getmembers(mod, inspect.isfunction)).union(
         inspect.getmembers(mod, inspect.isbuiltin)
     )
+    logger.info("validate_python_activity 8")
     for (name, cb) in candidates:
         if name == func:
             found_func = True
@@ -147,6 +156,7 @@ def validate_python_activity(activity: Activity):  # noqa: C901
                     raise
             break
 
+    logger.info("validate_python_activity 9")
     if not found_func:
         raise InvalidActivity(
             "The python module '{mod}' does not expose a function called "
@@ -154,3 +164,4 @@ def validate_python_activity(activity: Activity):  # noqa: C901
                 mod=mod_name, func=func, type=activity["type"], name=activity_name
             )
         )
+    logger.info("validate_python_activity 10")

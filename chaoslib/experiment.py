@@ -71,12 +71,17 @@ def ensure_experiment_is_valid(experiment: Experiment):
         if list(filter(lambda t: t == "" or not isinstance(t, str), tags)):
             raise InvalidExperiment("experiment tags must be a non-empty string")
 
+    logger.info("Pass 1")
     validate_extensions(experiment)
+    logger.info("Pass 2")
 
     config = load_configuration(experiment.get("configuration", {}))
+    logger.info("Pass 3")
     load_secrets(experiment.get("secrets", {}), config)
+    logger.info("Pass 4")
 
     ensure_hypothesis_is_valid(experiment)
+    logger.info("Pass 5")
 
     method = experiment.get("method")
     if method is None:
@@ -87,8 +92,10 @@ def ensure_experiment_is_valid(experiment: Experiment):
             "which can be empty for only checking steady state hypothesis "
         )
 
+    logger.info("Pass 6")
     for activity in method:
         ensure_activity_is_valid(activity)
+        logger.info("Pass 7")
 
         # let's see if a ref is indeed found in the experiment
         ref = activity.get("ref")
@@ -98,13 +105,18 @@ def ensure_experiment_is_valid(experiment: Experiment):
                 "found in the experiment".format(r=ref)
             )
 
+    logger.info("Pass 8")
     rollbacks = experiment.get("rollbacks", [])
+    logger.info("Pass 9")
     for activity in rollbacks:
         ensure_activity_is_valid(activity)
+        logger.info("Pass 10")
 
     warn_about_deprecated_features(experiment)
+    logger.info("Pass 11")
 
     validate_controls(experiment)
+    logger.info("Pass 12")
 
     logger.info("Experiment looks valid")
 

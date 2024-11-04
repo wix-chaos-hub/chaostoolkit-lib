@@ -91,7 +91,7 @@ def validate_python_activity(activity: Activity):  # noqa: C901
     logger.info("validate_python_activity 4")
 
     try:
-        logger.info("validate_python_activity 5")
+        logger.info(f"validate_python_activity 5 mod_name: {mod_name}")
         mod = importlib.import_module(mod_name)
         logger.info("validate_python_activity 6")
     except ImportError as err:

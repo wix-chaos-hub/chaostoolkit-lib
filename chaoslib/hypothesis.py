@@ -29,20 +29,27 @@ def ensure_hypothesis_is_valid(experiment: Experiment):
     or raises :exc:`InvalidExperiment` or :exc:`InvalidActivity`.
     """
     hypo = experiment.get("steady-state-hypothesis")
+    logger.info("ensure_hypothesis_is_valid 1")
     if hypo is None:
         return
+    logger.info("ensure_hypothesis_is_valid 2")
 
     if not hypo.get("title"):
         raise InvalidExperiment("hypothesis requires a title")
+    logger.info("ensure_hypothesis_is_valid 3")
 
     probes = hypo.get("probes")
+    logger.info("ensure_hypothesis_is_valid 4")
     if probes:
+        logger.info("ensure_hypothesis_is_valid 5")
         for probe in probes:
+            logger.info(f"ensure_hypothesis_is_valid prob: {probe}")
             ensure_activity_is_valid(probe)
 
             if "tolerance" not in probe:
                 raise InvalidActivity("hypothesis probe must have a tolerance entry")
 
+            logger.info("ensure_hypothesis_is_valid 6")
             ensure_hypothesis_tolerance_is_valid(probe["tolerance"])
 
 

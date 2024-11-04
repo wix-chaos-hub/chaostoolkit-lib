@@ -10,12 +10,14 @@ __all__ = [
     "InvalidControl",
 ]
 
+from logzero import logger
 
 class ChaosException(Exception):
     pass
 
 
 class InvalidActivity(ChaosException):
+    logger.info("error in InvalidActivity")
     pass
 
 

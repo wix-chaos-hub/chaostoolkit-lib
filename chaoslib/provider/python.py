@@ -95,6 +95,13 @@ def validate_python_activity(activity: Activity):  # noqa: C901
         mod = importlib.import_module(mod_name)
         logger.info("validate_python_activity 6")
     except ImportError as err:
+        logger.info(
+            "could not find Python module '{mod}'"
+            "in activity '{name}'"
+            "\nerror traceback:\n{error}".format(
+                mod=mod_name, name=activity_name, error=err
+            )
+        )
         raise InvalidActivity(
             "could not find Python module '{mod}'"
             "in activity '{name}'"
